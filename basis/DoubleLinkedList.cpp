@@ -36,7 +36,7 @@ DoubleLinkedList *initDList() {
     return list;//возвращаем список
 }
 
-void clearList(DoubleLinkedList *list) {
+void clearDList(DoubleLinkedList *list) {
     Node *cur = pList->head; //Инициализируем рабочий указатель указателем на начало списка
     Node *tmp = NULL; //Объявляем временный указатель, присваиваем NULL
     while (cur != NULL) //Пока рабочий указатель не NULL
@@ -224,6 +224,6 @@ void addBeforeCurrentInDList(DoubleLinkedList *list, void **newData) {
 }
 
 void terminateDList(DoubleLinkedList *list) {
-    clearList(pList);//очищаем список
+    clearDList(pList);//очищаем список
     free(pList);//освобождаем память, занимаемую списком
 }

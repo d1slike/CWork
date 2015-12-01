@@ -4,5 +4,7 @@ struct Sentence {
     SingleLinkedList* list;
 };
 
-void callMenuToSentenceEdit(Sentence* sentence, int clearScr);
+Sentence* callMenuToSentenceEdit(Sentence* sentence, int clearScr);
 
+void printSentence(Sentence* sentence);
+void terminateSentence(Sentence* sentence);

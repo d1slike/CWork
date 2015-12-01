@@ -15,7 +15,7 @@ struct DoubleLinkedList{
 };
 
 DoubleLinkedList* initDList();
-void clearList(DoubleLinkedList* list);
+void clearDList(DoubleLinkedList *list);
 int DListIsEmpty(DoubleLinkedList* list);
 void setCurrentToHead(DoubleLinkedList* list);
 void setCurrentToTail(DoubleLinkedList* list);

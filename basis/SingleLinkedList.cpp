@@ -31,7 +31,8 @@ void clearSList(SingleLinkedList *list) {
     while (cur != NULL) //Пока рабочий указатель не NULL
     {
         tmp = cur->next; //Присваиваем временному казателю указатель на следующий после рабочего
-        free(cur->data);
+        if(cur->data != NULL)
+            free(cur->data);
         free(cur); //Освобождаем память рабочего элемента
         cur = tmp; //Присваиваем рабочему казателю указатель на следующий за ним элемент
     }

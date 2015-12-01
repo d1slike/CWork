@@ -3,3 +3,7 @@
 //
 
 #include "Sentence.h"
+
+Sentence *callMenuToSentenceEdit(Sentence *sentence, int clearScr) {
+
+}
