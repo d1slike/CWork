@@ -1,5 +1,5 @@
-#include "basis/SingleLinkedList.h"
 #include "Text.h"
+#include "basis/SingleLinkedList.h"
 
 #define MAX_SIZE 10
 

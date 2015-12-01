@@ -1,6 +1,8 @@
 //
 // Created by Dislike on 30.11.2015.
 
+#include "../Util.h"
+
 struct SingleNode {
     SingleNode* next;
     void* data;
@@ -15,7 +17,7 @@ SingleLinkedList* initSList();
 void clearSList(SingleLinkedList* list);
 int SListIsEmpty(SingleLinkedList* list);
 void setCurrentToFirst(SingleLinkedList* list);
-int currentIsOnFirst(SingleLinkedList* list);
+int currentIsOnTail(SingleLinkedList *list);
 void moveCurrentToNextInSList(SingleLinkedList* list);
 SingleNode* getNextElementInSList(SingleLinkedList* list);
 SingleNode* removeNextElementInSList(SingleLinkedList* list);

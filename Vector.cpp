@@ -3,25 +3,24 @@
 //
 
 #include "Vector.h"
-#include "Util.h"
-#define VECTOR_MENU "1. РќР°С‡Р°С‚СЊ СЂР°Р±РѕС‚Сѓ СЃ РІРµРєС‚РѕСЂРѕРј.\n"\
-                    "2. РЎРґРµР»Р°С‚СЊ РІРµРєС‚РѕСЂ РїСѓСЃС‚С‹Рј.\n"\
-                    "3. Р’РµРєС‚РѕСЂ РїСѓСЃС‚?\n"\
-                    "4. Р’С‹РІРµСЃС‚Рё РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РІ РІРµРєС‚РѕСЂРµ.\n"\
-                    "5. РџРѕРєР°Р·Р°С‚СЊ Р·РЅР°С‡РµРЅРёРµ i-РѕРіРѕ СЌР»РµРјРµРЅС‚Р°.\n"\
-                    "6. РЈРґР°Р»РёС‚СЊ СЌР»РµРјРµРЅС‚ СЃ РєРѕРЅС†Р° РІРµРєС‚РѕСЂР°.\n"\
-                    "7. Р’Р·СЏС‚СЊ i-С‹Р№ СЌР»РµРјРµРЅС‚.\n"\
-                    "8. РР·РјРµРЅРёС‚СЊ Р·РЅР°С‡РµРЅРёРµ i-РѕРіРѕ СЌР»РµРјРµРЅС‚Р°.\n"\
-                    "9. Р”РѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ РІ РєРѕРЅРµС† СЃРїРёСЃРєР°.\n"\
-                    "10. Р—Р°РєРѕРЅС‡РёС‚СЊ СЂР°Р±РѕС‚Сѓ СЃ РІРµРєС‚РѕСЂРѕРј.\n"\
-                    "11. Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹."
+#define VECTOR_MENU "1. Начать работу с вектором.\n"\
+                    "2. Сделать вектор пустым.\n"\
+                    "3. Вектор пуст?\n"\
+                    "4. Вывести количество элементов в векторе.\n"\
+                    "5. Показать значение i-ого элемента.\n"\
+                    "6. Удалить элемент с конца вектора.\n"\
+                    "7. Взять i-ый элемент.\n"\
+                    "8. Изменить значение i-ого элемента.\n"\
+                    "9. Добавить новый элемент в конец списка.\n"\
+                    "10. Закончить работу с вектором.\n"\
+                    "11. Выход из программы.\n\n"
 
 
 
 int checkIndex(Vector* vector ,int i) {
     int ok = i > 0 && i < vector->size;
     if(!ok)
-        printf("РќРµРІРµСЂРЅС‹Р№ РёРЅРґРµРєСЃ!\n");
+        printf("Неверный индекс!\n");
     return ok;
 }
 
@@ -40,27 +39,27 @@ void callMenuToVectorEdit(Vector *v) {
 
     while(true)
     {
-        system("cls");//РѕС‡РёС‰Р°РµРј РєРѕРЅСЃРѕР»СЊ РѕС‚ РїСЂРµРґС‹РґСѓС‰РёР№ Р·Р°РїРёСЃРµР№
-        printf(VECTOR_MENU);//РїРµС‡Р°С‚Р°РµРј РІСЃРµ РїСѓРЅРєС‚С‹ РјРµРЅСЋ
+        system("cls");//очищаем консоль от предыдущий записей
+        printf(VECTOR_MENU);//печатаем все пункты меню
         printVector(v);
-        printf("\n->"); //РїРµС‡Р°С‚Р°РµРј СЃС‚СЂРµР»РєСѓ
-        scanf("%d", &cmd); //СЃС‡РёС‚С‹РІР°РµРј РєРѕРјР°РЅРґСѓ СЃ РєРѕРЅСЃРѕР»Рё
+        printf("\n->"); //печатаем стрелку
+        scanf("%d", &cmd); //считываем команду с консоли
 
         if(cmd == 11)
             return;
 
         if(cmd != 1 && vector == NULL)
         {
-            printf("РћРїРµСЂР°С†РёСЏ РЅРµ РґРѕРїСѓСЃС‚РёРјР°!\n"); //РІС‹РІРѕРґРёРј СЃРѕРѕР±С‰РµРЅРёРµ Рѕ РЅРµРґРѕРїСѓСЃС‚РёРјРѕСЃС‚Рё РѕРїРµСЂР°С†РёРё
-            listenAnswer();//РѕР¶РёРґР°РµРј РЅР°Р¶Р°С‚РёРµ Р»СЋР±РѕР№ РєР»Р°РІРёС€Рё РѕС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
-            continue; //РїСЂРѕРґРѕР»Р¶Р°РµРј РёС‚РµСЂР°С†РёРё С†РёРєР»Р°
+            printf("Операция не допустима!\n"); //выводим сообщение о недопустимости операции
+            listenAnswer();//ожидаем нажатие любой клавиши от пользователя
+            continue; //продолжаем итерации цикла
         }
 
         switch (cmd)
         {
             case 1:
                 if(vector != NULL)
-                    printf("Р’РµРєС‚РѕСЂ СѓР¶Рµ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅ\n");
+                    printf("Вектор уже инициализирован\n");
                 else
                     vector = initVector();
                 break;
@@ -68,10 +67,10 @@ void callMenuToVectorEdit(Vector *v) {
                 clearVector(vector);
                 break;
             case 3:
-                printf(vectorIsEmpty(vector) ? "Р’РµРєС‚РѕСЂ РїСѓСЃС‚.\n" : "Р’РµРєС‚РѕСЂ РќР• РїСѓСЃС‚.\n");
+                printf(vectorIsEmpty(vector) ? "Вектор пуст.\n" : "Вектор НЕ пуст.\n");
                 break;
             case 4:
-                printf("РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РІ РІРµРєС‚РѕСЂРµ СЂР°РІРЅРѕ: %d\n", getVectorSize(vector));
+                printf("Количество элементов в векторе равно: %d\n", getVectorSize(vector));
                 break;
             case 5:
                 printElement(vector, scanRequaredIndex());
@@ -88,7 +87,7 @@ void callMenuToVectorEdit(Vector *v) {
             case 7: {
                 Text *text = remove(vector, scanRequaredIndex());
                 if (text != NULL) {
-                    printf("Р—РЅР°С‡РµРЅРёРµ РІР·СЏС‚РѕРіРѕ СЌР»РµРјРµРЅС‚Р°: ");
+                    printf("Значение взятого элемента: ");
                     printText(text);
                     terminateText(text);
                     free(text);
@@ -107,8 +106,8 @@ void callMenuToVectorEdit(Vector *v) {
                 break;
             listenAnswer();
             default:
-                //РµСЃР»Рё РЅРµ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РЅРё РѕРґРЅР° РёР· РїСЂРµРґС‹РґС†С‰С… РІРµС‚РѕРє, РІС‹РІРѕРґРёРј СЃРѕРѕР±С‰РµРЅРёРµ Рѕ РЅРµРёР·РІРµСЃС‚РЅРѕР№ РєРѕРјР°РЅРґРµ
-                printf("РќРµРёР·РІРµСЃС‚РЅР°СЏ РєРѕРјР°РЅРґР°.\n");
+                //если не выполняется ни одна из предыдцщх веток, выводим сообщение о неизвестной команде
+                printf("Неизвестная команда.\n");
                 break;
         }
     }
@@ -171,16 +170,16 @@ void changeElement(Vector *v, int i) {
     if(checkIndex(v, i))
         return;
     moveToRequaredIndex(v, i);
-    callMenuToTextEdit((Text*)getNextElementInSList(v->source)->data, false);
+    callMenuToTextEdit((Text*)getNextElementInSList(v->source)->data);
 }
 
 void addLast(Vector *v) {
     if(v->size == MAX_SIZE)
     {
-        printf("РќРµРІРѕР·РјРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ Р±РѕР»СЊС€Рµ СЌР»РµРјРµРЅС‚РѕРІ РІ РІРµРєС‚РѕСЂ\n");
+        printf("Невозможно добавить больше элементов в вектор\n");
         return;
     }
-    void* text = callMenuToTextEdit(NULL, true);
+    void* text = callMenuToTextEdit(NULL);
     if(text != NULL) {
         moveToRequaredIndex(v, v->size - 1);
         addAfterCurrentInSList(v->source,  &text);
@@ -199,13 +198,13 @@ void terminateVector(Vector *v) {
 void printVector(Vector *v) {
     if(v == NULL)
     {
-        printf("Р’РµРєС‚РѕСЂ РЅРµ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅ.\n");
+        printf("Вектор не инициализирован.\n");
         return;
     }
 
     if(vectorIsEmpty(v))
     {
-        printf("Р’РµРєС‚РѕСЂ РїСѓСЃС‚.\n");
+        printf("Вектор пуст.\n");
         return;
     }
 

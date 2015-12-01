@@ -3,14 +3,12 @@
 //
 
 #include "SingleLinkedList.h"
-#include <stdio.h>
-#include <stdlib.h>
 
-#define NO_BECAUSE_ON_TAIL "РћРїРµСЂР°С†РёСЏ РЅРµ РґРѕСЃС‚СѓРїРЅР°. Р”РѕСЃС‚РёРіРЅСѓС‚ РєРѕРЅРµС† СЃРїРёСЃРєР°.\n"
-#define NO_BECAUSE_IS_EMPTY "РћРїРµСЂР°С†РёСЏ РЅРµ РґРѕСЃС‚СѓРїРЅР°. РЎРїРёСЃРѕРє РїСѓСЃС‚.\n"
+#define NO_BECAUSE_ON_TAIL "Операция не доступна. Достигнут конец списка.\n"
+#define NO_BECAUSE_IS_EMPTY "Операция не доступна. Список пуст.\n"
 
-/*РћРїСЂРµРґРµР»РЅРёРµ РјР°РєСЂРѕСЃР° РґР»СЏ С‡Р°СЃС‚Рѕ РїРѕРІС‚РѕСЂСЏСЋС‰РµРіРѕСЃСЏ РєРѕРґР°, РєРѕРґ РІС‹РїРѕР»РЅСЏРµС‚ РїСЂРѕРІРµСЂРєСѓ СЃРїРёСЃРєР° РЅР° РїСѓСЃС‚РѕС‚Сѓ Рё РїСЂРѕРІРµСЂРєР° С‚РµРєСѓС‰РµРіРѕ СѓРєР°Р·Р°С‚РµР»СЏ, СѓРєР°Р·С‹РІР°РµС‚ Р»Рё РѕРЅ РЅР° РєРѕРЅРµС† СЃРїРёСЃРєР°
- * РµСЃР»Рё СѓСЃР»РѕРІРёРµ РРЎРўРРќРђ, С‚Рѕ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РїРµС‡Р°С‚СЊ СЃРѕРѕР±С‰РµРЅРёСЏ РѕР± РѕС‰РёР±РєРµ Рё РІРѕР·РІСЂР°С‚ РёР· С„СѓРЅРєС†РёРё, РІ РєРѕС‚РѕСЂРѕР№ РґР°РЅРЅС‹Р№ РјР°РєСЂРѕСЃ РІСЃС‚СЂР°РёРІР°РµС‚СЃСЏ*/
+/*Определние макроса для часто повторяющегося кода, код выполняет проверку списка на пустоту и проверка текущего указателя, указывает ли он на конец списка
+ * если условие ИСТИНА, то выполняется печать сообщения об ощибке и возврат из функции, в которой данный макрос встраивается*/
 #define _CHECK_TAIL_    int empty = SListIsEmpty(list);\
                         if (empty || list->current->next == NULL) {\
                             printf(empty ? NO_BECAUSE_IS_EMPTY : NO_BECAUSE_ON_TAIL);\
@@ -26,17 +24,17 @@ SingleLinkedList *initSList() {
 }
 
 void clearSList(SingleLinkedList *list) {
-    Node *cur = list->first; //РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СЂР°Р±РѕС‡РёР№ СѓРєР°Р·Р°С‚РµР»СЊ СѓРєР°Р·Р°С‚РµР»РµРј РЅР° РЅР°С‡Р°Р»Рѕ СЃРїРёСЃРєР°
-    Node *tmp = NULL; //РћР±СЉСЏРІР»СЏРµРј РІСЂРµРјРµРЅРЅС‹Р№ СѓРєР°Р·Р°С‚РµР»СЊ, РїСЂРёСЃРІР°РёРІР°РµРј NULL
-    while (cur != NULL) //РџРѕРєР° СЂР°Р±РѕС‡РёР№ СѓРєР°Р·Р°С‚РµР»СЊ РЅРµ NULL
+    Node *cur = list->first; //Инициализируем рабочий указатель указателем на начало списка
+    Node *tmp = NULL; //Объявляем временный указатель, присваиваем NULL
+    while (cur != NULL) //Пока рабочий указатель не NULL
     {
-        tmp = cur->next; //РџСЂРёСЃРІР°РёРІР°РµРј РІСЂРµРјРµРЅРЅРѕРјСѓ РєР°Р·Р°С‚РµР»СЋ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃР»РµРґСѓСЋС‰РёР№ РїРѕСЃР»Рµ СЂР°Р±РѕС‡РµРіРѕ
+        tmp = cur->next; //Присваиваем временному казателю указатель на следующий после рабочего
         if(cur->data != NULL)
             free(cur->data);
-        free(cur); //РћСЃРІРѕР±РѕР¶РґР°РµРј РїР°РјСЏС‚СЊ СЂР°Р±РѕС‡РµРіРѕ СЌР»РµРјРµРЅС‚Р°
-        cur = tmp; //РџСЂРёСЃРІР°РёРІР°РµРј СЂР°Р±РѕС‡РµРјСѓ РєР°Р·Р°С‚РµР»СЋ СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃР»РµРґСѓСЋС‰РёР№ Р·Р° РЅРёРј СЌР»РµРјРµРЅС‚
+        free(cur); //Освобождаем память рабочего элемента
+        cur = tmp; //Присваиваем рабочему казателю указатель на следующий за ним элемент
     }
-    /*РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РІСЃРµ РєР»СЋС‡РµРІС‹Рµ СѓРєР°Р·Р°С‚РµР»СЏ СЃРїРёСЃРєР° РЅР° NULL*/
+    /*Устанавливаем все ключевые указателя списка на NULL*/
     list->first = list->current = NULL;
 }
 
@@ -48,7 +46,7 @@ void setCurrentToFirst(SingleLinkedList *list) {
     list->current = list->first;
 }
 
-int currentIsOnFirst(SingleLinkedList *list) {
+int currentIsOnTail(SingleLinkedList *list) {
     return list->current == list->first;
 }
 
@@ -59,8 +57,8 @@ void moveCurrentToNextInSList(SingleLinkedList *list) {
 
 SingleNode *getNextElementInSList(SingleLinkedList *list) {
     if ((SListIsEmpty(list) || list->current->next == NULL)) {
-        printf(SListIsEmpty(list) ? NO_BECAUSE_IS_EMPTY : NO_BECAUSE_ON_TAIL);//РїРµСЂС‡Р°С‚Р°РµРј СЃРѕРѕР±С‰РµРЅРёРµ Рѕ РЅРµРґРѕРїСѓСЃС‚РёРјРѕСЃС‚Рё РѕРїРµСЂР°С†РёРё
-        return NULL;//РІРѕР·РІСЂР°С‰РµРј СѓРїСЂР°РІР»РµРЅРёРµ РІС‹Р·С‹РІР°СЋС‰РµР№ С„СѓРЅРєС†РёРё
+        printf(SListIsEmpty(list) ? NO_BECAUSE_IS_EMPTY : NO_BECAUSE_ON_TAIL);//перчатаем сообщение о недопустимости операции
+        return NULL;//возвращем управление вызывающей функции
     }
 
     return list->current->next;
@@ -68,8 +66,8 @@ SingleNode *getNextElementInSList(SingleLinkedList *list) {
 
 SingleNode *removeNextElementInSList(SingleLinkedList *list) {
     if (SListIsEmpty(list) || list->current->next == NULL) {
-        printf(SListIsEmpty(list) ? NO_BECAUSE_IS_EMPTY : NO_BECAUSE_ON_TAIL);//РїРµСЂС‡Р°С‚Р°РµРј СЃРѕРѕР±С‰РµРЅРёРµ Рѕ РЅРµРґРѕРїСѓСЃС‚РёРјРѕСЃС‚Рё РѕРїРµСЂР°С†РёРё
-        return NULL;//РІРѕР·РІСЂР°С‰РµРј СѓРїСЂР°РІР»РµРЅРёРµ РІС‹Р·С‹РІР°СЋС‰РµР№ С„СѓРЅРєС†РёРё
+        printf(SListIsEmpty(list) ? NO_BECAUSE_IS_EMPTY : NO_BECAUSE_ON_TAIL);//перчатаем сообщение о недопустимости операции
+        return NULL;//возвращем управление вызывающей функции
     }
     //TODO fixme
 }
