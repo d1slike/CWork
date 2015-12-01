@@ -1,6 +1,8 @@
 #include "basis/SingleLinkedList.h"
 #include "Text.h"
 
+#define MAX_SIZE 10
+
 struct Vector {
     SingleLinkedList* source;
     int size;

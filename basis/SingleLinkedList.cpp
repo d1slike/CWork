@@ -57,7 +57,7 @@ void moveCurrentToNextInSList(SingleLinkedList *list) {
 }
 
 SingleNode *getNextElementInSList(SingleLinkedList *list) {
-    if (SListIsEmpty(list) || list->current->next == NULL) {
+    if ((SListIsEmpty(list) || list->current->next == NULL)) {
         printf(SListIsEmpty(list) ? NO_BECAUSE_IS_EMPTY : NO_BECAUSE_ON_TAIL);//перчатаем сообщение о недопустимости операции
         return NULL;//возвращем управление вызывающей функции
     }
@@ -70,6 +70,7 @@ SingleNode *removeNextElementInSList(SingleLinkedList *list) {
         printf(SListIsEmpty(list) ? NO_BECAUSE_IS_EMPTY : NO_BECAUSE_ON_TAIL);//перчатаем сообщение о недопустимости операции
         return NULL;//возвращем управление вызывающей функции
     }
+    //TODO fixme
 }
 
 void changeNextElementInSList(SingleLinkedList *list, void **newData) {

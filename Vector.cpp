@@ -2,8 +2,6 @@
 // Created by Dislike on 29.11.2015.
 //
 
-#include <stdlib.h>
-#include <stdio.h>
 #include "Vector.h"
 #include "Util.h"
 #define VECTOR_MENU "1. Начать работу с вектором.\n"\
@@ -19,6 +17,22 @@
                     "11. Выход из программы."
 
 
+
+int checkIndex(Vector* vector ,int i) {
+    int ok = i > 0 && i < vector->size;
+    if(!ok)
+        printf("Неверный индекс!\n");
+    return ok;
+}
+
+
+void moveToRequaredIndex(Vector* vector, int i) {
+    setCurrentToFirst(vector->source);
+    int cur = 0;
+    while(cur++ < i)
+        moveCurrentToNextInSList(vector->source);
+
+}
 
 void callMenuToVectorEdit(Vector *v) {
     Vector* vector = v;
@@ -62,17 +76,24 @@ void callMenuToVectorEdit(Vector *v) {
             case 5:
                 printElement(vector, scanRequaredIndex());
                 break;
-            case 6:
-                removeLast(vector);
+            case 6: {
+                Text *text = removeLast(vector);
+                if(text != NULL)
+                {
+                    terminateText(text);
+                    free(text);
+                }
+            }
                 break;
-            case 7:
-                Text* text = remove(vector, scanRequaredIndex());
-                if(text != NULL) {
+            case 7: {
+                Text *text = remove(vector, scanRequaredIndex());
+                if (text != NULL) {
                     printf("Значение взятого элемента: ");
                     printText(text);
                     terminateText(text);
                     free(text);
                 }
+            }
                 break;
             case 8:
                 changeElement(vector, scanRequaredIndex());
@@ -82,6 +103,7 @@ void callMenuToVectorEdit(Vector *v) {
                 break;
             case 10:
                 terminateVector(vector);
+                vector = NULL;
                 break;
             listenAnswer();
             default:
@@ -92,3 +114,110 @@ void callMenuToVectorEdit(Vector *v) {
     }
 
 }
+
+Vector *initVector() {
+    Vector* vector = (Vector*) malloc(sizeof(Vector));
+    if(vector == NULL)
+        fail();
+    vector->source = initSList();
+    addAfterCurrentInSList(vector->source, NULL);
+    vector->size = 0;
+
+    return vector;
+}
+
+void clearVector(Vector *v) {
+    setCurrentToFirst(v->source);
+    while(v->source->current->next != NULL)
+    {
+        SingleNode* node = removeNextElementInSList(v->source);
+        terminateText((Text*) node->data);
+        free(node);
+        moveCurrentToNextInSList(v->source);
+    }
+    v->source->first->next = NULL;
+    setCurrentToFirst(v->source);
+    v->size = 0;
+}
+
+int vectorIsEmpty(Vector *v) {
+    return !v->size;
+}
+
+int getVectorSize(Vector *v) {
+    return v->size;
+}
+
+void printElement(Vector *v, int i) {
+    if(checkIndex(v, i))
+        return;
+    moveToRequaredIndex(v, i);
+    printText((Text*) getNextElementInSList(v->source)->data);
+
+}
+
+Text *removeLast(Vector *v) {
+    return remove(v, v->size - 1);
+}
+
+Text *remove(Vector *v, int i) {
+    if(checkIndex(v, i))
+        return NULL;
+    moveToRequaredIndex(v, i);
+    return (Text*) removeNextElementInSList(v->source);
+}
+
+void changeElement(Vector *v, int i) {
+    if(checkIndex(v, i))
+        return;
+    moveToRequaredIndex(v, i);
+    callMenuToTextEdit((Text*)getNextElementInSList(v->source)->data, false);
+}
+
+void addLast(Vector *v) {
+    if(v->size == MAX_SIZE)
+    {
+        printf("Невозможно добавить больше элементов в вектор\n");
+        return;
+    }
+    void* text = callMenuToTextEdit(NULL, true);
+    if(text != NULL) {
+        moveToRequaredIndex(v, v->size - 1);
+        addAfterCurrentInSList(v->source,  &text);
+        v->size++;
+    }
+}
+
+void terminateVector(Vector *v) {
+    clearVector(v);
+    termnateSLIst(v->source);
+    free(v->source);
+    v->source = NULL;
+    free(v);
+}
+
+void printVector(Vector *v) {
+    if(v == NULL)
+    {
+        printf("Вектор не инициализирован.\n");
+        return;
+    }
+
+    if(vectorIsEmpty(v))
+    {
+        printf("Вектор пуст.\n");
+        return;
+    }
+
+    setCurrentToFirst(v->source);
+    moveCurrentToNextInSList(v->source);
+    int i = 0;
+    while(v->source->current->next != NULL)
+    {
+        printf("[%d]\t", i);
+        printText((Text*) v->source->current->data);
+        moveCurrentToNextInSList(v->source);
+    }
+    printf("\n");
+}
+

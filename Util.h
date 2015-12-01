@@ -7,9 +7,11 @@
 
 #include <conio.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define true 1
 #define false 0
+
 
 void listenAnswer()
 {
@@ -24,6 +26,12 @@ int scanRequaredIndex()
     int i;
     scanf("%d", &i);
     return  i;
+}
+
+void fail()
+{
+    printf("Не удалось выделить память, завершение программы!");
+    exit(-1);
 }
 
 #endif //CWORK_UTIL_H
