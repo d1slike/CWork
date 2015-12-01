@@ -23,4 +23,5 @@ SingleNode* getNextElementInSList(SingleLinkedList* list);
 SingleNode* removeNextElementInSList(SingleLinkedList* list);
 void changeNextElementInSList(SingleLinkedList* list, void** newData);
 void addAfterCurrentInSList(SingleLinkedList* list, void** newData);
-void termnateSLIst(SingleLinkedList* list);
+
+void terminateSLIst(SingleLinkedList *list);

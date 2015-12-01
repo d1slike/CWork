@@ -10,7 +10,7 @@
 /*Определние макроса для часто повторяющегося кода, код выполняет проверку списка на пустоту и проверка текущего указателя, указывает ли он на конец списка
  * если условие ИСТИНА, то выполняется печать сообщения об ощибке и возврат из функции, в которой данный макрос встраивается*/
 #define _CHECK_TAIL_    int empty = SListIsEmpty(list);\
-                        if (empty || list->current->next == NULL) {\
+                        if (empty || currentIsOnTail(list)) {\
                             printf(empty ? NO_BECAUSE_IS_EMPTY : NO_BECAUSE_ON_TAIL);\
                             return;\
                         }
@@ -69,7 +69,11 @@ SingleNode *removeNextElementInSList(SingleLinkedList *list) {
         printf(SListIsEmpty(list) ? NO_BECAUSE_IS_EMPTY : NO_BECAUSE_ON_TAIL);//перчатаем сообщение о недопустимости операции
         return NULL;//возвращем управление вызывающей функции
     }
-    //TODO fixme
+
+    SingleNode *toRet = list->current->next;
+    list->current->next = toRet->next;
+
+    return toRet;
 }
 
 void changeNextElementInSList(SingleLinkedList *list, void **newData) {
@@ -79,10 +83,22 @@ void changeNextElementInSList(SingleLinkedList *list, void **newData) {
 }
 
 void addAfterCurrentInSList(SingleLinkedList *list, void **newData) {
+    SingleNode *node = (SingleNode *) malloc(sizeof(SingleNode));
+    if (!node)
+        fail();
+    node->data = newData;
+
+    if (list->current == NULL) {
+        list->current = node;
+        node->next = NULL;
+    }
+
+    node->next = list->current->next;
+    list->current->next = node;
 
 }
 
-void termnateSLIst(SingleLinkedList *list) {
+void terminateSLIst(SingleLinkedList *list) {
     clearSList(list);
     free(list);
 }

@@ -83,12 +83,14 @@ Text *callMenuToTextEdit(Text *text) {
                 break;
             case 10: {
                 Sentence *sentence = (Sentence *) getNextElementInDList(t->list);
-                printSentence(sentence);
+                if (sentence != NULL)
+                    printSentence(sentence);
             }
                 break;
             case 11: {
                 Sentence *sentence = (Sentence *) getPrevElementInDList(t->list);
-                printSentence(sentence);
+                if (sentence != NULL)
+                    printSentence(sentence);
             }
                 break;
             case 12: {
@@ -130,12 +132,14 @@ Text *callMenuToTextEdit(Text *text) {
                 break;
             case 16: {
                 Sentence *sentence = (Sentence *) getPrevElementInDList(t->list);
-                callMenuToSentenceEdit(sentence);
+                if (sentence != NULL)
+                    callMenuToSentenceEdit(sentence);
             }
                 break;
             case 17: {
                 Sentence *sentence = (Sentence *) getNextElementInDList(t->list);
-                callMenuToSentenceEdit(sentence);
+                if (sentence != NULL)
+                    callMenuToSentenceEdit(sentence);
             }
                 break;
             case 18: {

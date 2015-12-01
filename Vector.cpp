@@ -41,7 +41,7 @@ void callMenuToVectorEdit(Vector *v) {
     {
         system("cls");//очищаем консоль от предыдущий записей
         printf(VECTOR_MENU);//печатаем все пункты меню
-        printVector(v);
+        printVector(vector);
         printf("\n->"); //печатаем стрелку
         scanf("%d", &cmd); //считываем команду с консоли
 
@@ -104,12 +104,13 @@ void callMenuToVectorEdit(Vector *v) {
                 terminateVector(vector);
                 vector = NULL;
                 break;
-            listenAnswer();
             default:
                 //если не выполняется ни одна из предыдцщх веток, выводим сообщение о неизвестной команде
                 printf("Неизвестная команда.\n");
                 break;
         }
+
+        listenAnswer();
     }
 
 }
@@ -126,6 +127,8 @@ Vector *initVector() {
 }
 
 void clearVector(Vector *v) {
+    if (vectorIsEmpty(v))
+        return;
     setCurrentToFirst(v->source);
     while(v->source->current->next != NULL)
     {
@@ -148,7 +151,7 @@ int getVectorSize(Vector *v) {
 }
 
 void printElement(Vector *v, int i) {
-    if(checkIndex(v, i))
+    if (!checkIndex(v, i))
         return;
     moveToRequaredIndex(v, i);
     printText((Text*) getNextElementInSList(v->source)->data);
@@ -160,14 +163,14 @@ Text *removeLast(Vector *v) {
 }
 
 Text *remove(Vector *v, int i) {
-    if(checkIndex(v, i))
+    if (!checkIndex(v, i))
         return NULL;
     moveToRequaredIndex(v, i);
     return (Text*) removeNextElementInSList(v->source);
 }
 
 void changeElement(Vector *v, int i) {
-    if(checkIndex(v, i))
+    if (!checkIndex(v, i))
         return;
     moveToRequaredIndex(v, i);
     callMenuToTextEdit((Text*)getNextElementInSList(v->source)->data);
@@ -189,7 +192,7 @@ void addLast(Vector *v) {
 
 void terminateVector(Vector *v) {
     clearVector(v);
-    termnateSLIst(v->source);
+    terminateSLIst(v->source);
     free(v->source);
     v->source = NULL;
     free(v);

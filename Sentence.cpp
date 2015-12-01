@@ -58,10 +58,18 @@ Sentence *callMenuToSentenceEdit(Sentence *s) {
         printf("\n->"); //печатаем стрелку
         scanf("%d", &cmd); //считываем команду с консоли
 
+
+
         if(cmd == 12)
             return sentence;
         if(cmd == 13)
             exit(0);
+
+        if (cmd != 1 && sentence == NULL) {
+            printf("Операция не допустима!\n"); //выводим сообщение о недопустимости операции
+            listenAnswer();//ожидаем нажатие любой клавиши от пользователя
+            continue; //продолжаем итерации цикла
+        }
 
         switch (cmd)
         {
@@ -87,25 +95,35 @@ Sentence *callMenuToSentenceEdit(Sentence *s) {
             case 6:
                 moveCurrentToNextInSList(sentence->list);
                 break;
-            case 7:
-                printf("%s", (char*)getNextElementInSList(sentence->list)->data);
+            case 7: {
+                char *word = (char *) getNextElementInSList(sentence->list)->data;
+                if (word != NULL)
+                    printf("%s", word);
+            }
                 break;
             case 8: {
                 SingleNode *node = removeNextElementInSList(sentence->list);
-                free(node);
+                if (node != NULL)
+                    free(node);
             }
                 break;
             case 9:
             {
                 SingleNode *node = removeNextElementInSList(sentence->list);
-                printf("Взятое слово - %s", (char*)node->data);
-                free(node);
+                if (node != NULL) {
+
+                    printf("Взятое слово - %s", (char *) node->data);
+                    free(node);
+                }
             }
                 break;
             case 10: {
-                free(getNextElementInSList(sentence->list)->data);
-                void* newWord = scanNewWord();
-                changeNextElementInSList(sentence->list, &newWord);
+                char *old = (char *) getNextElementInSList(sentence->list)->data;
+                if (old != NULL) {
+                    free(old);
+                    void *newWord = scanNewWord();
+                    changeNextElementInSList(sentence->list, &newWord);
+                }
             }
                 break;
             case 11:
