@@ -3,6 +3,7 @@
 //
 
 #include <ctype.h>
+#include <windows.h>
 #include "Util.h"
 
 char *scanNewWord() {
@@ -49,4 +50,14 @@ void fail()
 {
     printf("Не удалось выделить память, завершение программы!");
     exit(-1);
+}
+
+void setDefaultColorText() {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, (WORD) ((0 << 4) | 15));
+}
+
+void setYellowColorText() {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, (WORD) ((0 << 4) | 14));
 }

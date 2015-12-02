@@ -42,7 +42,8 @@ void clearDList(DoubleLinkedList *list) {
     while (cur != NULL) //ѕока рабочий указатель не NULL
     {
         tmp = cur->next; //ѕрисваиваем временному казателю указатель на следующий после рабочего
-        free(cur->data);
+        if (cur->data != NULL)
+            free(cur->data);
         free(cur); //ќсвобождаем пам€ть рабочего элемента
         cur = tmp; //ѕрисваиваем рабочему казателю указатель на следующий за ним элемент
     }

@@ -86,7 +86,10 @@ void addAfterCurrentInSList(SingleLinkedList *list, void **newData) {
     SingleNode *node = (SingleNode *) malloc(sizeof(SingleNode));
     if (!node)
         fail();
-    node->data = *newData;
+    if (newData != NULL)
+        node->data = *newData;
+    else
+        node->data = NULL;
 
     if (list->current == NULL) {
         list->current = list->first = node;

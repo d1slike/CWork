@@ -6,6 +6,6 @@ struct Sentence {
 
 Sentence* callMenuToSentenceEdit(Sentence* sentence);
 
-void printSentence(Sentence* sentence);
+void printSentence(Sentence *sentence, int showCurrent);
 void terminateSentence(Sentence* sentence);
 Sentence* initSentence();

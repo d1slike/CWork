@@ -8,10 +8,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define true 1
+#define false 0
 
 void listenAnswer();
 int scanRequaredIndex();
 void fail();
+
+void setDefaultColorText();
+
+void setYellowColorText();
 
 char *scanNewWord();
 

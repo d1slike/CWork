@@ -11,14 +11,14 @@
                     "6. Удалить элемент с конца вектора.\n"\
                     "7. Взять i-ый элемент.\n"\
                     "8. Изменить значение i-ого элемента.\n"\
-                    "9. Добавить новый элемент в конец списка.\n"\
+                    "9. Добавить новый элемент в конец вектора.\n"\
                     "10. Закончить работу с вектором.\n"\
                     "11. Выход из программы.\n\n"
 
 
 
 int checkIndex(Vector* vector ,int i) {
-    int ok = i > 0 && i < vector->size;
+    int ok = i >= 0 && i < vector->size;
     if(!ok)
         printf("Неверный индекс!\n");
     return ok;
@@ -28,8 +28,10 @@ int checkIndex(Vector* vector ,int i) {
 void moveToRequaredIndex(Vector* vector, int i) {
     setCurrentToFirst(vector->source);
     int cur = 0;
-    while(cur++ < i)
+    while (cur < i) {
         moveCurrentToNextInSList(vector->source);
+        cur++;
+    }
 
 }
 
@@ -78,19 +80,17 @@ void callMenuToVectorEdit(Vector *v) {
             case 6: {
                 Text *text = removeLast(vector);
                 if(text != NULL)
-                {
                     terminateText(text);
-                    free(text);
-                }
+
             }
                 break;
             case 7: {
                 Text *text = remove(vector, scanRequaredIndex());
                 if (text != NULL) {
                     printf("Значение взятого элемента: ");
-                    printText(text);
+                    printText(text, false);
                     terminateText(text);
-                    free(text);
+                    //free(text);
                 }
             }
                 break;
@@ -135,10 +135,8 @@ void clearVector(Vector *v) {
         SingleNode* node = removeNextElementInSList(v->source);
         terminateText((Text*) node->data);
         free(node);
-        moveCurrentToNextInSList(v->source);
     }
     v->source->first->next = NULL;
-    setCurrentToFirst(v->source);
     v->size = 0;
 }
 
@@ -156,7 +154,7 @@ void printElement(Vector *v, int i) {
     moveToRequaredIndex(v, i);
     SingleNode *node = getNextElementInSList(v->source);
     if (node != NULL)
-        printText((Text *) node->data);
+        printText((Text *) node->data, false);
 
 }
 
@@ -198,8 +196,6 @@ void addLast(Vector *v) {
 void terminateVector(Vector *v) {
     clearVector(v);
     terminateSLIst(v->source);
-    free(v->source);
-    v->source = NULL;
     free(v);
 }
 
@@ -216,14 +212,14 @@ void printVector(Vector *v) {
         return;
     }
 
-    setCurrentToFirst(v->source);
-    moveCurrentToNextInSList(v->source);
     int i = 0;
-    while(v->source->current->next != NULL)
+    SingleNode *node = v->source->first->next;
+    while (node != NULL)
     {
-        printf("[%d]\t", i);
-        printText((Text*) v->source->current->data);
-        moveCurrentToNextInSList(v->source);
+        printf("[%d]", i);
+        printText((Text *) node->data, false);
+        node = node->next;
+        i++;
     }
     printf("\n");
 }

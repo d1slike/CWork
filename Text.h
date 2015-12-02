@@ -4,8 +4,9 @@ struct Text {
     DoubleLinkedList* list;
 };
 
-Text* callMenuToTextEdit(Text* text);
+Text *callMenuToTextEdit(Text *tx);
+
+void printText(Text *text, int showCurrent);
 void terminateText(Text* text);
-void printText(Text* text);
 Text* initText();
 void clearText(Text *text);

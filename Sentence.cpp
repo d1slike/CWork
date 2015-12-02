@@ -29,7 +29,7 @@ Sentence *callMenuToSentenceEdit(Sentence *s) {
     {
         system("cls");//очищаем консоль от предыдущий записей
         printf(SENTENCE_MENU);//печатаем все пункты меню
-        printSentence(sentence);
+        printSentence(sentence, true);
         printf("\n->"); //печатаем стрелку
         scanf("%d", &cmd); //считываем команду с консоли
 
@@ -65,10 +65,11 @@ Sentence *callMenuToSentenceEdit(Sentence *s) {
                 break;
             case 5:
                 if (SListIsEmpty(sentence->list))
-                    printf("Предложение пустое.\n");
+                    printf("Предложение пустое. Текущий указатель не установлен.\n");
                 else
-                printf(currentIsOnTail(sentence->list) ? "Текущий указатель указывает на последне слово в предложении.\n"
-                                                : "Текущий указаетель НЕ указывает на последнее слово в предложении\n");
+                    printf(currentIsOnTail(sentence->list)
+                           ? "Текущий указатель указывает на последне слово в предложении.\n"
+                           : "Текущий указаетель НЕ указывает на последнее слово в предложении\n");
                 break;
             case 6:
                 moveCurrentToNextInSList(sentence->list);
@@ -132,11 +133,11 @@ Sentence *initSentence() {
 }
 
 void terminateSentence(Sentence *sentence) {
-    clearSList(sentence->list);
-    free(sentence->list);
+    terminateSLIst(sentence->list);
+    free(sentence);
 }
 
-void printSentence(Sentence *sentence) {
+void printSentence(Sentence *sentence, int showCurrent) {
     if(sentence == NULL)
     {
         printf("Предложение не инициализировано.\n");
@@ -145,19 +146,22 @@ void printSentence(Sentence *sentence) {
 
     if(SListIsEmpty(sentence->list))
     {
-        printf("Предложение пустое.\n");
+        printf("Пустое предложение.\n");
         return;
     }
 
     SingleNode* cur = sentence->list->first;
     while(cur != NULL)
     {
-        if(cur == sentence->list->current)
-            printf("->%s<- ", (char*)cur->data);
+        if (cur == sentence->list->current && showCurrent) {
+            setYellowColorText();
+            printf("%s ", (char *) cur->data);
+            setDefaultColorText();
+        }
         else
             printf("%s ", (char*)cur->data);
         cur = cur->next;
     }
-
-    printf("\n");
+    if (showCurrent)
+        printf("\n");
 }

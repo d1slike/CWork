@@ -27,22 +27,22 @@
                 "20. Вернуться в меню работы с вектором.\n"\
                 "21. Завершение программы.\n\n"
 
-Text *callMenuToTextEdit(Text *text) {
-    Text *t = text;
+Text *callMenuToTextEdit(Text *tx) {
+    Text *text = tx;
     int cmd;
     while (true) {
         system("cls");//очищаем консоль от предыдущий записей
         printf(TEXT_MENU);//печатаем все пункты меню
-        printText(t);
+        printText(text, true);
         printf("\n->"); //печатаем стрелку
         scanf("%d", &cmd); //считываем команду с консоли
 
         if (cmd == 20)
-            return t;
+            return text;
         if (cmd == 21)
             exit(0);
 
-        if (cmd != 1 && t == NULL) {
+        if (cmd != 1 && text == NULL) {
             printf("Операция не допустима!\n"); //выводим сообщение о недопустимости операции
             listenAnswer();//ожидаем нажатие любой клавиши от пользователя
             continue; //продолжаем итерации цикла
@@ -50,51 +50,56 @@ Text *callMenuToTextEdit(Text *text) {
 
         switch (cmd) {
             case 1:
-                if (t != NULL)
+                if (text != NULL)
                     printf("Вектор уже инициализирован\n");
                 else
-                    t = initText();
+                    text = initText();
                 break;
             case 2:
                 clearText(text);
                 break;
             case 3:
-                printf(DListIsEmpty(t->list) ? "Тект пуст.\n" : "Тект НЕ пуст.\n");
+                printf(DListIsEmpty(text->list) ? "Тект пуст.\n" : "Тект НЕ пуст.\n");
                 break;
             case 4:
-                setCurrentToHead(t->list);
+                setCurrentToHead(text->list);
                 break;
             case 5:
-                setCurrentToTail(t->list);
+                setCurrentToTail(text->list);
                 break;
             case 6:
-                printf(currentIsOnHead(t->list) ? "Текущий указатель указывает на первый элемент текста.\n"
-                                                : "Текущий указаетель НЕ указывает на первый элемент текста.\n");
+                if (DListIsEmpty(text->list))
+                    printf("Текст пуст. Текущий указатель не установлен.\n");
+                else
+                    printf(currentIsOnHead(text->list) ? "Текущий указатель указывает на первый элемент текста.\n"
+                                                       : "Текущий указаетель НЕ указывает на первый элемент текста.\n");
                 break;
             case 7:
-                printf(currentIsOnTail(t->list) ? "Текущий указатель указывает последний элемент текста\n"
-                                                : "Текущий указаетель НЕ указывает последний элемент текста\n");
+                if (DListIsEmpty(text->list))
+                    printf("Текст пуст. Текущий указатель не установлен.\n");
+                printf(currentIsOnTail(text->list) ? "Текущий указатель указывает последний элемент текста\n"
+                                                   : "Текущий указаетель НЕ указывает последний элемент текста\n");
                 break;
             case 8:
-                moveCurrentToNextInDList(t->list);
+                moveCurrentToNextInDList(text->list);
                 break;
             case 9:
-                moveCurrentToPrevInDList(t->list);
+                moveCurrentToPrevInDList(text->list);
                 break;
             case 10: {
-                DoubleNode *sentence = getNextElementInDList(t->list);
+                DoubleNode *sentence = getNextElementInDList(text->list);
                 if (sentence != NULL)
-                    printSentence((Sentence *) sentence->data);
+                    printSentence((Sentence *) sentence->data, false);
             }
                 break;
             case 11: {
-                DoubleNode *sentence = getPrevElementInDList(t->list);
+                DoubleNode *sentence = getPrevElementInDList(text->list);
                 if (sentence != NULL)
-                    printSentence((Sentence *) sentence->data);
+                    printSentence((Sentence *) sentence->data, false);
             }
                 break;
             case 12: {
-                DoubleNode *sentence = removePrevElementInDList(t->list);
+                DoubleNode *sentence = removePrevElementInDList(text->list);
                 if (sentence != NULL) {
                     terminateSentence((Sentence *) sentence->data);
                     free(sentence);
@@ -102,7 +107,7 @@ Text *callMenuToTextEdit(Text *text) {
             }
                 break;
             case 13: {
-                DoubleNode *sentence = removePrevElementInDList(t->list);
+                DoubleNode *sentence = removeNextElementInDLIst(text->list);
                 if (sentence != NULL) {
                     terminateSentence((Sentence *) sentence->data);
                     free(sentence);
@@ -111,33 +116,33 @@ Text *callMenuToTextEdit(Text *text) {
 
                 break;
             case 14: {
-                DoubleNode *sentence = removePrevElementInDList(t->list);
+                DoubleNode *sentence = removePrevElementInDList(text->list);
                 if (sentence != NULL) {
                     printf("Взятое предложение - ");
-                    printSentence((Sentence *) sentence->data);
+                    printSentence((Sentence *) sentence->data, false);
                     terminateSentence((Sentence *) sentence->data);
                     free(sentence);
                 }
             }
                 break;
             case 15: {
-                DoubleNode *sentence = removeNextElementInDLIst(t->list);
+                DoubleNode *sentence = removeNextElementInDLIst(text->list);
                 if (sentence != NULL) {
                     printf("Взятое предложение - ");
-                    printSentence((Sentence *) sentence->data);
+                    printSentence((Sentence *) sentence->data, false);
                     terminateSentence((Sentence *) sentence->data);
                     free(sentence);
                 }
             }
                 break;
             case 16: {
-                DoubleNode *sentence = getPrevElementInDList(t->list);
+                DoubleNode *sentence = getPrevElementInDList(text->list);
                 if (sentence != NULL)
                     callMenuToSentenceEdit((Sentence *) sentence->data);
             }
                 break;
             case 17: {
-                DoubleNode *sentence = getNextElementInDList(t->list);
+                DoubleNode *sentence = getNextElementInDList(text->list);
                 if (sentence != NULL)
                     callMenuToSentenceEdit((Sentence *) sentence->data);
             }
@@ -145,13 +150,13 @@ Text *callMenuToTextEdit(Text *text) {
             case 18: {
                 void *sentence = callMenuToSentenceEdit(NULL);
                 if (sentence != NULL)
-                    addBeforeCurrentInDList(t->list, &sentence);
+                    addBeforeCurrentInDList(text->list, &sentence);
             }
                 break;
             case 19: {
                 void *sentence = callMenuToSentenceEdit(NULL);
                 if (sentence != NULL)
-                    addAfterCurrentInDList(t->list, &sentence);
+                    addAfterCurrentInDList(text->list, &sentence);
                 break;
             }
             default:
@@ -162,21 +167,17 @@ Text *callMenuToTextEdit(Text *text) {
     }
 }
 
-void terminateText(Text *text) {
-    clearText(text);
-    //free(text);
-}
 
-void printText(Text *text) {
+void printText(Text *text, int showCurrent) {
     if(text == NULL)
     {
-        printf("Текст не инициализирован\n");
+        printf("\tТекст не инициализирован.\n");
         return;
     }
 
     if(DListIsEmpty(text->list))
     {
-        printf("Текст пуст\n");
+        printf("\tПустой текст.\n");
         return;
     }
 
@@ -184,15 +185,15 @@ void printText(Text *text) {
     while(cur != NULL)
     {
         printf("   \t");
-        if(cur == text->list->current) {
-            printf("->");
-            printSentence((Sentence*)cur->data);
-            printf("<-");
+        if (cur == text->list->current && showCurrent) {
+            setYellowColorText();
+            printSentence((Sentence *) cur->data, false);
+            setDefaultColorText();
         }
         else
-            printSentence((Sentence *) cur->data);
-        printf("\n");
+            printSentence((Sentence *) cur->data, false);
         cur = cur->next;
+        printf("\n");
     }
 }
 
@@ -210,8 +211,14 @@ void clearText(Text *text) {
     while(cur != NULL)
     {
         terminateSentence((Sentence*) cur->data);
+        cur->data = NULL;
         cur = cur->next;
     }
     clearDList(text->list);
 }
 
+void terminateText(Text *text) {
+    clearText(text);
+    terminateDList(text->list);
+    free(text);
+}
