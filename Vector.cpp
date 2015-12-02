@@ -154,7 +154,9 @@ void printElement(Vector *v, int i) {
     if (!checkIndex(v, i))
         return;
     moveToRequaredIndex(v, i);
-    printText((Text*) getNextElementInSList(v->source)->data);
+    SingleNode *node = getNextElementInSList(v->source);
+    if (node != NULL)
+        printText((Text *) node->data);
 
 }
 
@@ -166,14 +168,17 @@ Text *remove(Vector *v, int i) {
     if (!checkIndex(v, i))
         return NULL;
     moveToRequaredIndex(v, i);
-    return (Text*) removeNextElementInSList(v->source);
+    SingleNode *node = removeNextElementInSList(v->source);
+    return node == NULL ? NULL : (Text *) node->data;
 }
 
 void changeElement(Vector *v, int i) {
     if (!checkIndex(v, i))
         return;
     moveToRequaredIndex(v, i);
-    callMenuToTextEdit((Text*)getNextElementInSList(v->source)->data);
+    SingleNode *text = getNextElementInSList(v->source);
+    if (text != NULL)
+        callMenuToTextEdit((Text *) text->data);
 }
 
 void addLast(Vector *v) {

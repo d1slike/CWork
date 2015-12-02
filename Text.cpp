@@ -82,64 +82,64 @@ Text *callMenuToTextEdit(Text *text) {
                 moveCurrentToPrevInDList(t->list);
                 break;
             case 10: {
-                Sentence *sentence = (Sentence *) getNextElementInDList(t->list);
+                DoubleNode *sentence = getNextElementInDList(t->list);
                 if (sentence != NULL)
-                    printSentence(sentence);
+                    printSentence((Sentence *) sentence->data);
             }
                 break;
             case 11: {
-                Sentence *sentence = (Sentence *) getPrevElementInDList(t->list);
+                DoubleNode *sentence = getPrevElementInDList(t->list);
                 if (sentence != NULL)
-                    printSentence(sentence);
+                    printSentence((Sentence *) sentence->data);
             }
                 break;
             case 12: {
-                Sentence *sentence = (Sentence *) removePrevElementInDList(t->list);
+                DoubleNode *sentence = removePrevElementInDList(t->list);
                 if (sentence != NULL) {
-                    terminateSentence(sentence);
+                    terminateSentence((Sentence *) sentence->data);
                     free(sentence);
                 }
             }
                 break;
             case 13: {
-                Sentence *sentence = (Sentence *) removePrevElementInDList(t->list);
+                DoubleNode *sentence = removePrevElementInDList(t->list);
                 if (sentence != NULL) {
-                    terminateSentence(sentence);
+                    terminateSentence((Sentence *) sentence->data);
                     free(sentence);
                 }
             }
 
                 break;
             case 14: {
-                Sentence *sentence = (Sentence *) removePrevElementInDList(t->list);
+                DoubleNode *sentence = removePrevElementInDList(t->list);
                 if (sentence != NULL) {
                     printf("Взятое предложение - ");
-                    printSentence(sentence);
-                    terminateSentence(sentence);
+                    printSentence((Sentence *) sentence->data);
+                    terminateSentence((Sentence *) sentence->data);
                     free(sentence);
                 }
             }
                 break;
             case 15: {
-                Sentence *sentence = (Sentence *) removeNextElementInDLIst(t->list);
+                DoubleNode *sentence = removeNextElementInDLIst(t->list);
                 if (sentence != NULL) {
                     printf("Взятое предложение - ");
-                    printSentence(sentence);
-                    terminateSentence(sentence);
+                    printSentence((Sentence *) sentence->data);
+                    terminateSentence((Sentence *) sentence->data);
                     free(sentence);
                 }
             }
                 break;
             case 16: {
-                Sentence *sentence = (Sentence *) getPrevElementInDList(t->list);
+                DoubleNode *sentence = getPrevElementInDList(t->list);
                 if (sentence != NULL)
-                    callMenuToSentenceEdit(sentence);
+                    callMenuToSentenceEdit((Sentence *) sentence->data);
             }
                 break;
             case 17: {
-                Sentence *sentence = (Sentence *) getNextElementInDList(t->list);
+                DoubleNode *sentence = getNextElementInDList(t->list);
                 if (sentence != NULL)
-                    callMenuToSentenceEdit(sentence);
+                    callMenuToSentenceEdit((Sentence *) sentence->data);
             }
                 break;
             case 18: {
@@ -158,6 +158,7 @@ Text *callMenuToTextEdit(Text *text) {
                 printf("Неизвестная команда.\n");
                 break;
         }
+        listenAnswer();
     }
 }
 
@@ -201,6 +202,7 @@ Text *initText() {
         fail();
     DoubleLinkedList* list = initDList();
     text->list = list;
+    return text;
 }
 
 void clearText(Text *text) {

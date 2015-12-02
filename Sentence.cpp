@@ -2,7 +2,6 @@
 // Created by Dislike on 29.11.2015.
 //
 
-#include <ctype.h>
 #include "Sentence.h"
 
 #define SENTENCE_MENU   "1. Инициализировать предложение.\n"\
@@ -21,30 +20,6 @@
 
 
 
-char* scanNewWord()
-{
-    fflush(stdin);
-
-    const size_t CHAR_SIZE = sizeof(char);
-
-    char *word = (char *) malloc(CHAR_SIZE * 10);
-    int count = 0;
-    int i = 0;
-    char c = '1';
-    printf("Введите новое слово -> ");
-    while (!isspace((c = getchar()))) {
-        word[count++] = c;
-        i++;
-        if (i == 10) {
-            word = (char *) realloc(word, ((count + 10) * CHAR_SIZE));
-            if (word == NULL)
-                fail();
-            i = 0;
-        }
-    }
-
-    return word;
-}
 
 Sentence *callMenuToSentenceEdit(Sentence *s) {
     Sentence* sentence = s;
@@ -89,6 +64,9 @@ Sentence *callMenuToSentenceEdit(Sentence *s) {
                 setCurrentToFirst(sentence->list);
                 break;
             case 5:
+                if (SListIsEmpty(sentence->list))
+                    printf("Предложение пустое.\n");
+                else
                 printf(currentIsOnTail(sentence->list) ? "Текущий указатель указывает на последне слово в предложении.\n"
                                                 : "Текущий указаетель НЕ указывает на последнее слово в предложении\n");
                 break;
@@ -98,7 +76,7 @@ Sentence *callMenuToSentenceEdit(Sentence *s) {
             case 7: {
                 char *word = (char *) getNextElementInSList(sentence->list)->data;
                 if (word != NULL)
-                    printf("%s", word);
+                    printf("%s\n", word);
             }
                 break;
             case 8: {
@@ -112,15 +90,16 @@ Sentence *callMenuToSentenceEdit(Sentence *s) {
                 SingleNode *node = removeNextElementInSList(sentence->list);
                 if (node != NULL) {
 
-                    printf("Взятое слово - %s", (char *) node->data);
+                    printf("Взятое слово - %s\n", (char *) node->data);
                     free(node);
                 }
             }
                 break;
             case 10: {
-                char *old = (char *) getNextElementInSList(sentence->list)->data;
-                if (old != NULL) {
-                    free(old);
+                SingleNode *node = getNextElementInSList(sentence->list);
+                if (node != NULL) {
+                    if (node->data != NULL)
+                        free(node->data);
                     void *newWord = scanNewWord();
                     changeNextElementInSList(sentence->list, &newWord);
                 }
@@ -136,6 +115,8 @@ Sentence *callMenuToSentenceEdit(Sentence *s) {
                 printf("Неизвестная команда.\n");
                 break;
         }
+
+        listenAnswer();
     }
 
 }
