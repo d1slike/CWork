@@ -45,8 +45,8 @@ void callMenuToVectorEdit(Vector *v) {
         printf(VECTOR_MENU);//печатаем все пункты меню
         printVector(vector);
         printf("\n->"); //печатаем стрелку
-        scanf("%d", &cmd); //считываем команду с консоли
-
+        //scanf("%d", &cmd); //считываем команду с консоли
+        cmd = scanIntValue();
         if(cmd == 11)
             return;
 
@@ -87,7 +87,7 @@ void callMenuToVectorEdit(Vector *v) {
             case 7: {
                 Text *text = remove(vector, scanRequaredIndex());
                 if (text != NULL) {
-                    printf("Значение взятого элемента: ");
+                    printf("Значение взятого элемента: \n");
                     printText(text, false);
                     terminateText(text);
                     //free(text);
@@ -118,7 +118,7 @@ void callMenuToVectorEdit(Vector *v) {
 Vector *initVector() {
     Vector* vector = (Vector*) malloc(sizeof(Vector));
     if(vector == NULL)
-        fail();
+        failMemoryAllocate();
     vector->source = initSList();
     addAfterCurrentInSList(vector->source, NULL);
     vector->size = 0;
@@ -167,6 +167,8 @@ Text *remove(Vector *v, int i) {
         return NULL;
     moveToRequaredIndex(v, i);
     SingleNode *node = removeNextElementInSList(v->source);
+    if(node != NULL)
+        v->size--;
     return node == NULL ? NULL : (Text *) node->data;
 }
 
@@ -187,7 +189,7 @@ void addLast(Vector *v) {
     }
     void* text = callMenuToTextEdit(NULL);
     if(text != NULL) {
-        moveToRequaredIndex(v, v->size - 1);
+        moveToRequaredIndex(v, v->size);
         addAfterCurrentInSList(v->source,  &text);
         v->size++;
     }
@@ -216,10 +218,11 @@ void printVector(Vector *v) {
     SingleNode *node = v->source->first->next;
     while (node != NULL)
     {
-        printf("[%d]", i);
+        printf("[%d]\n", i);
         printText((Text *) node->data, false);
         node = node->next;
         i++;
+        printLine();
     }
     printf("\n");
 }

@@ -30,9 +30,9 @@ Sentence *callMenuToSentenceEdit(Sentence *s) {
         system("cls");//очищаем консоль от предыдущий записей
         printf(SENTENCE_MENU);//печатаем все пункты меню
         printSentence(sentence, true);
-        printf("\n->"); //печатаем стрелку
-        scanf("%d", &cmd); //считываем команду с консоли
-
+        printf("\n\n->"); //печатаем стрелку
+        //scanf("%d", &cmd); //считываем команду с консоли
+        cmd = scanIntValue();
 
 
         if(cmd == 12)
@@ -101,14 +101,14 @@ Sentence *callMenuToSentenceEdit(Sentence *s) {
                 if (node != NULL) {
                     if (node->data != NULL)
                         free(node->data);
-                    void *newWord = scanNewWord();
+                    void *newWord = scanNewWord(true);
                     changeNextElementInSList(sentence->list, &newWord);
                 }
             }
                 break;
             case 11:
             {
-                void* newWord = scanNewWord();
+                void* newWord = scanNewWord(true);
                 addAfterCurrentInSList(sentence->list, &newWord);
             }
                 break;
@@ -125,7 +125,7 @@ Sentence *callMenuToSentenceEdit(Sentence *s) {
 Sentence *initSentence() {
     Sentence* sentence = (Sentence*) malloc(sizeof(sentence));
     if(!sentence)
-        fail();
+        failMemoryAllocate();
     SingleLinkedList* list = initSList();
     sentence->list = list;
 
@@ -140,13 +140,13 @@ void terminateSentence(Sentence *sentence) {
 void printSentence(Sentence *sentence, int showCurrent) {
     if(sentence == NULL)
     {
-        printf("Предложение не инициализировано.\n");
+        printf("Предложение не инициализировано.");
         return;
     }
 
     if(SListIsEmpty(sentence->list))
     {
-        printf("Пустое предложение.\n");
+        printf("Пустое предложение.");
         return;
     }
 
@@ -162,6 +162,4 @@ void printSentence(Sentence *sentence, int showCurrent) {
             printf("%s ", (char*)cur->data);
         cur = cur->next;
     }
-    if (showCurrent)
-        printf("\n");
 }

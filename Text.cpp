@@ -35,8 +35,8 @@ Text *callMenuToTextEdit(Text *tx) {
         printf(TEXT_MENU);//печатаем все пункты меню
         printText(text, true);
         printf("\n->"); //печатаем стрелку
-        scanf("%d", &cmd); //считываем команду с консоли
-
+        //scanf("%d", &cmd); //считываем команду с консоли
+        cmd = scanIntValue();
         if (cmd == 20)
             return text;
         if (cmd == 21)
@@ -171,20 +171,19 @@ Text *callMenuToTextEdit(Text *tx) {
 void printText(Text *text, int showCurrent) {
     if(text == NULL)
     {
-        printf("\tТекст не инициализирован.\n");
+        printf("Текст не инициализирован.\n");
         return;
     }
 
     if(DListIsEmpty(text->list))
     {
-        printf("\tПустой текст.\n");
+        printf("Пустой текст.\n");
         return;
     }
 
     DoubleNode* cur = text->list->head;
     while(cur != NULL)
     {
-        printf("   \t");
         if (cur == text->list->current && showCurrent) {
             setYellowColorText();
             printSentence((Sentence *) cur->data, false);
@@ -200,7 +199,7 @@ void printText(Text *text, int showCurrent) {
 Text *initText() {
     Text* text = (Text*) malloc(sizeof(Text));
     if(!text)
-        fail();
+        failMemoryAllocate();
     DoubleLinkedList* list = initDList();
     text->list = list;
     return text;

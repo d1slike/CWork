@@ -85,7 +85,7 @@ void changeNextElementInSList(SingleLinkedList *list, void **newData) {
 void addAfterCurrentInSList(SingleLinkedList *list, void **newData) {
     SingleNode *node = (SingleNode *) malloc(sizeof(SingleNode));
     if (!node)
-        fail();
+        failMemoryAllocate();
     if (newData != NULL)
         node->data = *newData;
     else

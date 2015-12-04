@@ -13,12 +13,14 @@
 
 void listenAnswer();
 int scanRequaredIndex();
-void fail();
+int scanIntValue();
+void printLine();
+void failMemoryAllocate();
 
 void setDefaultColorText();
 
 void setYellowColorText();
 
-char *scanNewWord();
+char *scanNewWord(int printMessage);
 
 
