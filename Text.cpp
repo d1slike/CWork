@@ -87,13 +87,13 @@ Text *callMenuToTextEdit(Text *tx) {
                 moveCurrentToPrevInDList(text->list);
                 break;
             case 10: {
-                DoubleNode *sentence = getNextElementInDList(text->list);
+                DoubleNode *sentence = getPrevElementInDList(text->list);
                 if (sentence != NULL)
                     printSentence((Sentence *) sentence->data, false);
             }
                 break;
             case 11: {
-                DoubleNode *sentence = getPrevElementInDList(text->list);
+                DoubleNode *sentence = getNextElementInDList(text->list);
                 if (sentence != NULL)
                     printSentence((Sentence *) sentence->data, false);
             }
@@ -193,6 +193,22 @@ void printText(Text *text, int showCurrent) {
             printSentence((Sentence *) cur->data, false);
         cur = cur->next;
         printf("\n");
+    }
+    if(showCurrent) {
+        printLine();
+        printf("Обратный порядок\n\n");
+        cur = text->list->tail;
+        while (cur != NULL) {
+            if (cur == text->list->current && showCurrent) {
+                setYellowColorText();
+                printSentence((Sentence *) cur->data, false);
+                setDefaultColorText();
+            }
+            else
+                printSentence((Sentence *) cur->data, false);
+            cur = cur->prev;
+            printf("\n");
+        }
     }
 }
 

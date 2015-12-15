@@ -75,6 +75,11 @@ Sentence *callMenuToSentenceEdit(Sentence *s) {
                 moveCurrentToNextInSList(sentence->list);
                 break;
             case 7: {
+                if(SListIsEmpty(sentence->list))
+                {
+                    printf("Предложение пустое\n");
+                    break;
+                }
                 char *word = (char *) getNextElementInSList(sentence->list)->data;
                 if (word != NULL)
                     printf("%s\n", word);

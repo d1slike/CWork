@@ -87,14 +87,22 @@ DoubleNode *getNextElementInDList(DoubleLinkedList *list) {
         printf(DListIsEmpty(list) ? NO_BECAUSE_IS_EMPTY : NO_BECAUSE_ON_TAIL);//перчатаем сообщение о недопустимости операции
         return NULL;//возвращем управление вызывающей функции
     }
+
+    if(pList->head == pList->tail)
+        return pList->head;
+
+
     return list->current->next;
 }
 
 DoubleNode *getPrevElementInDList(DoubleLinkedList *list) {
     if (DListIsEmpty(list) || currentIsOnHead(pList)) {
-        printf(DListIsEmpty(list) ? NO_BECAUSE_IS_EMPTY : NO_BECAUSE_ON_HEAD);//перчатаем сообщение о недопустимости операции
+        printf(DListIsEmpty(list) ? NO_BECAUSE_IS_EMPTY
+                                  : NO_BECAUSE_ON_HEAD);//перчатаем сообщение о недопустимости операции
         return NULL;//возвращем управление вызывающей функции
     }
+    if(pList->head == pList->tail)
+        return pList->head;
     return list->current->prev;
 }
 
@@ -104,6 +112,13 @@ DoubleNode *removeNextElementInDLIst(DoubleLinkedList *list) {
         printf(DListIsEmpty(list) ? NO_BECAUSE_IS_EMPTY : NO_BECAUSE_ON_TAIL);//перчатаем сообщение о недопустимости операции
         return NULL;//возвращем управление вызывающей функции
     }
+
+    if(pList->head == pList->tail) {
+        DoubleNode* toRet =  pList->head;
+        pList->head = pList->tail = pList->current = NULL;
+        return toRet;
+    }
+
     /*Объявляем и инициализируем указатель на удалемый элемент*/
     Node *toDel = pList->current->next;
     /*Если удаляется полсдедний элемент списка*/
@@ -125,6 +140,13 @@ DoubleNode *removePrevElementInDList(DoubleLinkedList *list) {
         printf(NO_BECAUSE_ON_HEAD);//перчатаем сообщение о недопустимости операции
         return NULL; //возвращем управление вызывающей функции
     }
+
+    if(pList->head == pList->tail) {
+        DoubleNode* toRet =  pList->head;
+        pList->head = pList->tail = pList->current = NULL;
+        return toRet;
+    }
+
     /*Объявляем и инициализируем указатель на удалемый элемент*/
     Node *toDel = pList->current->prev;
     /*Если удаляется первый элемент списка*/
@@ -133,6 +155,7 @@ DoubleNode *removePrevElementInDList(DoubleLinkedList *list) {
         pList->head->prev = NULL; //у первого элемента указателю на предыдущий присваиваем 0
         return toDel; //возаращем из функции указаетль на взятый элемент
     }
+
     /*Если берем элемент из середины списка*/
     pList->current->prev = toDel->prev;//у текущего элемента укателю на предыдущий присваиваем значение указателя предыдущего элемента у взятого
     toDel->prev->next = pList->current;//присваиваем указателю на следущий элемент у предыдущего за взятым значение указателя текущего элемента

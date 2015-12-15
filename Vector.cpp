@@ -57,6 +57,13 @@ void callMenuToVectorEdit(Vector *v) {
             continue; //продолжаем итерации цикла
         }
 
+        if(vector != NULL && vectorIsEmpty(vector) && cmd >= 5 && cmd <= 8)
+        {
+            printf("Вектор пуст\n");
+            listenAnswer();
+            continue;
+        }
+
         switch (cmd)
         {
             case 1:
@@ -78,6 +85,11 @@ void callMenuToVectorEdit(Vector *v) {
                 printElement(vector, scanRequaredIndex());
                 break;
             case 6: {
+                if(vectorIsEmpty(vector))
+                {
+                    printf("Вектор пуст\n");
+                    break;
+                }
                 Text *text = removeLast(vector);
                 if(text != NULL)
                     terminateText(text);
